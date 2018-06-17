@@ -1,5 +1,7 @@
 import React from "react";
+import { push } from "react-router-redux";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import * as HomeActions from "../../actions/HomeActions";
 import "./home.css";
 import Book from "../../components/Book";
@@ -14,10 +16,6 @@ you don't find a specific author or title. Every search is limited by search ter
 */
 
 class BooksApp extends React.Component {
-  state = {
-    showSearchPage: false
-  };
-
   componentDidMount() {
     this.props.allBooksDispatch();
   }
@@ -25,51 +23,30 @@ class BooksApp extends React.Component {
   render() {
     return (
       <div className="app">
-        {this.state.showSearchPage ? (
-          <div className="search-books">
-            <div className="search-books-bar">
-              <a
-                className="close-search"
-                onClick={() => this.setState({ showSearchPage: false })}
-              >
-                Close
-              </a>
-              <div className="search-books-input-wrapper">
-                <input type="text" placeholder="Search by title or author" />
-              </div>
-            </div>
-            <div className="search-books-results">
-              <ol className="books-grid" />
-            </div>
+        <div className="list-books">
+          <div className="list-books-title">
+            <h1>MyReads</h1>
           </div>
-        ) : (
-          <div className="list-books">
-            <div className="list-books-title">
-              <h1>MyReads</h1>
-            </div>
-            <div className="list-books-content">
-              <div>
-                {this.props.homeData.sections.map((section, index) => (
-                  <div key={index} className="bookshelf">
-                    <h2 className="bookshelf-title">{section.section}</h2>
-                    <div className="bookshelf-books">
-                      <ol className="books-grid">
-                        {section.books.map((book, index) => (
-                          <Book key={index} book={book} />
-                        ))}
-                      </ol>
-                    </div>
+          <div className="list-books-content">
+            <div>
+              {this.props.homeData.sections.map((section, index) => (
+                <div key={index} className="bookshelf">
+                  <h2 className="bookshelf-title">{section.section}</h2>
+                  <div className="bookshelf-books">
+                    <ol className="books-grid">
+                      {section.books.map((book, index) => (
+                        <Book key={index} book={book} />
+                      ))}
+                    </ol>
                   </div>
-                ))}
-              </div>
-            </div>
-            <div className="open-search">
-              <a onClick={() => this.setState({ showSearchPage: true })}>
-                Add a book
-              </a>
+                </div>
+              ))}
             </div>
           </div>
-        )}
+          <div className="open-search">
+            <a onClick={() => this.props.toSearch()}>Add a book</a>
+          </div>
+        </div>
       </div>
     );
   }
@@ -83,7 +60,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    allBooksDispatch: () => dispatch(HomeActions.allBooksDispatch())
+    allBooksDispatch: () => dispatch(HomeActions.allBooksDispatch()),
+    toSearch: bindActionCreators(() => push("/search"), dispatch)
   };
 };
 
