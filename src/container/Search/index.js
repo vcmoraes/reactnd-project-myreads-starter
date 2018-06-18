@@ -2,6 +2,7 @@ import React from "react";
 import { push } from "react-router-redux";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import ListBook from "../../components/ListBook";
 
 const Search = props => (
   <div className="search-books">
@@ -14,7 +15,7 @@ const Search = props => (
       </div>
     </div>
     <div className="search-books-results">
-      <ol className="books-grid" />
+      <ListBook />
     </div>
   </div>
 );

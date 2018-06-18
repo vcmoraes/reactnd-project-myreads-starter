@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as HomeActions from "../../actions/HomeActions";
 import "./home.css";
-import Book from "../../components/Book";
+import ListBook from "../../components/ListBook";
 
 /*
 NOTES: The search from BooksAPI is limited to a particular set of search terms.
@@ -32,13 +32,7 @@ class BooksApp extends React.Component {
               {this.props.homeData.sections.map((section, index) => (
                 <div key={index} className="bookshelf">
                   <h2 className="bookshelf-title">{section.section}</h2>
-                  <div className="bookshelf-books">
-                    <ol className="books-grid">
-                      {section.books.map((book, index) => (
-                        <Book key={index} book={book} />
-                      ))}
-                    </ol>
-                  </div>
+                  <ListBook books={section.books} />
                 </div>
               ))}
             </div>
