@@ -25,6 +25,8 @@ export function allBooksDispatch() {
 
 export function updateBookDispatch(book) {
   return async dispatch => {
-    return dispatch(updateBook(book));
+    return BooksAPI.update(book, book.shelf).then(() => {
+      dispatch(updateBook(book));
+    });
   };
 }

@@ -9,7 +9,13 @@ class ListBook extends Component {
       <div className="bookshelf-books">
         <ol className="books-grid">
           {books &&
-            books.map((book, index) => <Book key={index} book={book} />)}
+            books.map((book, index) => (
+              <Book
+                updateBookHandler={this.props.updateBookHandler}
+                key={index}
+                book={book}
+              />
+            ))}
         </ol>
       </div>
     );

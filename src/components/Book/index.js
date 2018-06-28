@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import "./book.css";
 
 class Book extends Component {
+  changeValueHandler = book => {
+    this.props.updateBookHandler(book);
+  };
   render() {
     const { book } = this.props;
     return (
@@ -13,11 +16,17 @@ class Book extends Component {
               style={{
                 width: 128,
                 height: 193,
-                backgroundImage: "url(" + book.imageLinks.smallThumbnail + ")"
+                backgroundImage: getLinkImage(book)
               }}
             />
             <div className="book-shelf-changer">
-              <select defaultValue={book.shelf}>
+              <select
+                defaultValue={book.shelf}
+                onChange={val => {
+                  book.shelf = val.currentTarget.value;
+                  this.changeValueHandler(book);
+                }}
+              >
                 <option value="none" disabled>
                   Move to...
                 </option>
@@ -29,14 +38,23 @@ class Book extends Component {
             </div>
           </div>
           <div className="book-title">{book.title}</div>
-          {book.authors.map((author, index) => (
-            <div key={index} className="book-authors">
-              {author}
-            </div>
-          ))}
+          {book.authors &&
+            book.authors.map((author, index) => (
+              <div key={index} className="book-authors">
+                {author}
+              </div>
+            ))}
         </div>
       </li>
     );
+  }
+}
+
+function getLinkImage(book) {
+  if (book.imageLinks && book.imageLinks.smallThumbnail) {
+    return "url(" + book.imageLinks.smallThumbnail + ")";
+  } else {
+    return "";
   }
 }
 

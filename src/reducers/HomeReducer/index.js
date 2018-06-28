@@ -1,42 +1,60 @@
 import { ALL_BOOKS, UPDATE_BOOKS } from "../../actions/HomeActions/constants";
 
 const initialState = {
-  sections: []
+  sections: [],
+  booksAll: []
 };
 
 const homerReducer = (state = initialState, action) => {
+  var booksAll;
   switch (action.type) {
     case ALL_BOOKS:
-      var sections = [];
-
-      const readingBooks = action.booksAll.filter(
-        book => book.shelf === "currentlyReading"
-      );
-      var reading = { section: "Currently Reading", books: readingBooks };
-
-      const wantReadBooks = action.booksAll.filter(
-        book => book.shelf === "wantToRead"
-      );
-      var wantToRead = { section: "Want to Read", books: wantReadBooks };
-
-      const readBooks = action.booksAll.filter(book => book.shelf === "read");
-      var read = { section: "Read", books: readBooks };
-
-      sections.push(reading);
-      sections.push(wantToRead);
-      sections.push(read);
-
-      return {
-        ...state,
-        sections: sections
-      };
+      booksAll = action.booksAll;
+      break;
     case UPDATE_BOOKS:
+      booksAll = state.booksAll;
+      break;
+    default:
       return {
         ...state
       };
-    default:
-      return state;
   }
+  return {
+    ...state,
+    sections: getSections(booksAll),
+    booksAll: booksAll
+  };
 };
+
+function getSections(booksAll) {
+  return [
+    getSection("Currently Reading", booksAll, "currentlyReading"),
+    getSection("Want to Read", booksAll, "wantToRead"),
+    getSection("Read", booksAll, "read")
+  ];
+}
+
+function getSection(sectionTitle, booksAll, filter) {
+  return {
+    section: sectionTitle,
+    books: getFilterSoltered(booksAll, filter)
+  };
+}
+
+function getFilterSoltered(books, filter) {
+  return sortBooks(filterBooks(books, filter));
+}
+
+function filterBooks(books, filter) {
+  return books.filter(book => book.shelf === filter);
+}
+
+function sortBooks(books) {
+  return books
+    ? books.sort(function(a, b) {
+        return a.title - b.title;
+      })
+    : books;
+}
 
 export default homerReducer;

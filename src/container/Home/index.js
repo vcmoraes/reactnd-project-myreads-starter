@@ -20,6 +20,10 @@ class BooksApp extends React.Component {
     this.props.allBooksDispatch();
   }
 
+  updateBookHandler = book => {
+    this.props.updateBookDispatch(book);
+  };
+
   render() {
     return (
       <div className="app">
@@ -32,7 +36,10 @@ class BooksApp extends React.Component {
               {this.props.homeData.sections.map((section, index) => (
                 <div key={index} className="bookshelf">
                   <h2 className="bookshelf-title">{section.section}</h2>
-                  <ListBook books={section.books} />
+                  <ListBook
+                    books={section.books}
+                    updateBookHandler={this.updateBookHandler}
+                  />
                 </div>
               ))}
             </div>
@@ -55,6 +62,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     allBooksDispatch: () => dispatch(HomeActions.allBooksDispatch()),
+    updateBookDispatch: book => dispatch(HomeActions.updateBookDispatch(book)),
     toSearch: bindActionCreators(() => push("/search"), dispatch)
   };
 };
