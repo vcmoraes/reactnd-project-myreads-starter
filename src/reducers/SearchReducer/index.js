@@ -1,6 +1,11 @@
-import { SEARCH_BOOKS } from "../../actions/SearchActions/constants";
+import {
+  SEARCH_BOOKS,
+  UPDATE_LAST_QUERY,
+  UPDATE_BOOKS
+} from "../../actions/SearchActions/constants";
 
 const initialState = {
+  lastQuery: "",
   booksSearch: []
 };
 
@@ -11,6 +16,12 @@ const searchReducer = (state = initialState, action) => {
         ...state,
         booksSearch: sortBooks(action.booksSearch)
       };
+    case UPDATE_LAST_QUERY:
+      return {
+        ...state,
+        lastQuery: action.query
+      };
+    case UPDATE_BOOKS:
     default:
       return {
         ...state

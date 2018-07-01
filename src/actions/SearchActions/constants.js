@@ -1,1 +1,3 @@
 export const SEARCH_BOOKS = "SEARCH_BOOKS";
+export const UPDATE_LAST_QUERY = "UPDATE_LAST_QUERY";
+export const UPDATE_BOOKS = "UPDATE_BOOKS";

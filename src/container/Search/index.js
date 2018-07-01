@@ -6,16 +6,23 @@ import * as SearchActions from "../../actions/SearchActions";
 import ListBook from "../../components/ListBook";
 
 class Search extends React.Component {
+  componentWillMount() {
+    var lastQuery = this.props.searchData.lastQuery;
+    this.setState({ query: lastQuery });
+    this.props.searchBooksDispatch(lastQuery);
+  }
+
   toHomeHandler = () => {
     this.props.toHome();
   };
 
   searchBooksHandler = query => {
-    this.props.searchBooksDispatch(query);
+    this.setState({ query: query.trim() });
+    this.props.searchBooksDispatch(query.trim());
   };
 
   updateBookHandler = book => {
-    console.log("UPDATE", "UPDATE");
+    this.props.updateBookDispatch(book);
   };
 
   render() {
@@ -28,6 +35,7 @@ class Search extends React.Component {
           <div className="search-books-input-wrapper">
             <input
               type="text"
+              value={this.state.query}
               placeholder="Search by title or author"
               onChange={event => this.searchBooksHandler(event.target.value)}
             />
@@ -54,6 +62,8 @@ const mapDispatchToProps = dispatch => {
   return {
     searchBooksDispatch: query =>
       dispatch(SearchActions.searchBooksDispatch(query)),
+    updateBookDispatch: book =>
+      dispatch(SearchActions.updateBookDispatch(book)),
     toHome: bindActionCreators(() => push("/"), dispatch)
   };
 };

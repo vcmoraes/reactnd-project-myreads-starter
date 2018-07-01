@@ -19,7 +19,7 @@ export const get = bookId =>
 export const getAll = () =>
   fetch(`${api}/books`, { headers })
     .then(res => res.json())
-    .then(data => data.books);
+    .then(data => (Array.isArray(data.books) ? data.books : []));
 
 export const update = (book, shelf) =>
   fetch(`${api}/books/${book.id}`, {
@@ -41,4 +41,4 @@ export const search = query =>
     body: JSON.stringify({ query })
   })
     .then(res => res.json())
-    .then(data => data.books);
+    .then(data => (Array.isArray(data.books) ? data.books : []));
