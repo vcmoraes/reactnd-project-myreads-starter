@@ -1,10 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "../../App";
+import ListBook from "../../ListBook";
 
-describe("Container - App", () => {
+describe("Components - ListBook", () => {
   it("renders correctly", () => {
     const div = document.createElement("div");
-    ReactDOM.render(<App />, div);
+    ReactDOM.render(<ListBook />, div);
   });
 });
