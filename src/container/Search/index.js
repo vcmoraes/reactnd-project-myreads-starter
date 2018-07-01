@@ -7,8 +7,7 @@ import ListBook from "../../components/ListBook";
 
 class Search extends React.Component {
   componentWillMount() {
-    var lastQuery = this.props.searchData.lastQuery;
-    this.setState({ query: lastQuery });
+    var lastQuery = localStorage.getItem("lastQuery");
     this.props.searchBooksDispatch(lastQuery);
   }
 
@@ -17,7 +16,7 @@ class Search extends React.Component {
   };
 
   searchBooksHandler = query => {
-    this.setState({ query: query.trim() });
+    localStorage.setItem("lastQuery", query.trim());
     this.props.searchBooksDispatch(query.trim());
   };
 
@@ -34,8 +33,9 @@ class Search extends React.Component {
           </a>
           <div className="search-books-input-wrapper">
             <input
+              autoFocus={true}
               type="text"
-              value={this.state.query}
+              value={localStorage.getItem("lastQuery")}
               placeholder="Search by title or author"
               onChange={event => this.searchBooksHandler(event.target.value)}
             />

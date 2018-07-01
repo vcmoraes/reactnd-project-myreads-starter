@@ -27,7 +27,7 @@ class Book extends Component {
                   this.changeValueHandler(book);
                 }}
               >
-                <option value="none" disabled>
+                <option value="" disabled>
                   Move to...
                 </option>
                 <option value="currentlyReading">Currently Reading</option>

@@ -1,4 +1,4 @@
-import { SEARCH_BOOKS, UPDATE_LAST_QUERY, UPDATE_BOOKS } from "./constants";
+import { SEARCH_BOOKS, UPDATE_BOOKS } from "./constants";
 
 import * as BooksAPI from "../../BooksAPI";
 
@@ -6,13 +6,6 @@ function searchBooks(booksSearch) {
   return {
     type: SEARCH_BOOKS,
     booksSearch: booksSearch
-  };
-}
-
-function setLastQuery(query) {
-  return {
-    type: UPDATE_LAST_QUERY,
-    query: query
   };
 }
 
@@ -25,7 +18,6 @@ function updateBook(book) {
 
 export function searchBooksDispatch(query) {
   return async dispatch => {
-    dispatch(setLastQuery(query));
     if (query.trim()) {
       return BooksAPI.search(query).then(books => {
         Promise.all(books.map(book => BooksAPI.get(book.id))).then(function(
