@@ -7,7 +7,9 @@ import ListBook from "../../components/ListBook";
 
 class Search extends React.Component {
   componentWillMount() {
-    var lastQuery = localStorage.getItem("lastQuery");
+    var lastQuery = localStorage.getItem("lastQuery")
+      ? localStorage.getItem("lastQuery")
+      : "";
     this.setState({ query: lastQuery });
     this.props.searchBooksDispatch(lastQuery);
   }
